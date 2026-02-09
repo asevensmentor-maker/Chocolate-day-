@@ -13,7 +13,6 @@ body {
   overflow: hidden;
 }
 
-/* Center box */
 .box {
   position: fixed;
   top: 50%;
@@ -58,12 +57,11 @@ button {
   width: 100%;
 }
 
-/* Chocolate rain (emoji) */
+/* Chocolate rain */
 .choco {
   position: fixed;
   top: -50px;
   font-size: 32px;
-  z-index: 1;
   animation: fall linear forwards;
 }
 
@@ -92,16 +90,11 @@ button {
 
 .final-choco {
   font-size: 90px;
-  margin: 15px 0;
 }
 </style>
 </head>
 
 <body>
-
-<audio id="music" loop>
-  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3">
-</audio>
 
 <!-- PAGE 1 -->
 <div class="box" id="page1">
@@ -134,7 +127,6 @@ const page1 = document.getElementById("page1");
 const page2 = document.getElementById("page2");
 const page3 = document.getElementById("page3");
 const message = document.getElementById("message");
-const music = document.getElementById("music");
 
 const messages = [
   "You are sweeter than any chocolate in the world 💕",
@@ -143,31 +135,60 @@ const messages = [
   "Chocolate melts, but my love for you never will ❤️"
 ];
 
-let rainInterval;
+/* YES button */
+function startLove() {
+  page1.classList.add("hidden");
+  page2.classList.remove("hidden");
+}
 
-/* Chocolate rain */
+/* NO button → chocolate rain */
 function startRain() {
   page1.classList.add("hidden");
 
-  rainInterval = setInterval(() => {
+  const rain = setInterval(() => {
     const choco = document.createElement("div");
     choco.className = "choco";
     choco.innerText = "🍫";
     choco.style.left = Math.random() * 100 + "vw";
     choco.style.animationDuration = (Math.random() * 2 + 3) + "s";
     document.body.appendChild(choco);
+    setTimeout(() => choco.remove(), 6000);
+  }, 150);
 
-    setTimeout(() => choco.remove(), 7000);
-  }, 120);
-
-  setTimeout(showWarning, 7000);
+  setTimeout(() => {
+    clearInterval(rain);
+    showWarning();
+  }, 5000);
 }
 
-/* Overlay */
+/* Overlay forcing YES */
 function showWarning() {
   const overlay = document.createElement("div");
   overlay.className = "overlay";
   overlay.innerHTML = `
     <div class="overlay-box">
       <h2>😜 You can’t say NO!</h2>
-      <p>The
+      <p>Chocolate is compulsory 💕</p>
+      <button class="yes" onclick="forceYes()">Okay 😍</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+}
+
+/* Force to page 2 */
+function forceYes() {
+  document.querySelector(".overlay").remove();
+  page2.classList.remove("hidden");
+}
+
+/* Final page */
+function finalPage(choco) {
+  page2.classList.add("hidden");
+  page3.classList.remove("hidden");
+  message.innerText =
+    choco + " — " + messages[Math.floor(Math.random() * messages.length)];
+}
+</script>
+
+</body>
+</html>
