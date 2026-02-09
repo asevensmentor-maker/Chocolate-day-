@@ -7,26 +7,26 @@
 
 <style>
 body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(to bottom, #ff758c, #ff7eb3);
-    overflow: hidden;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom, #ff758c, #ff7eb3);
+  overflow: hidden;
 }
 
 /* Center box */
 .box {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    padding: 25px;
-    border-radius: 20px;
-    width: 90%;
-    max-width: 420px;
-    text-align: center;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-    z-index: 10;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 25px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+  z-index: 10;
 }
 
 .hidden { display: none; }
@@ -34,66 +34,66 @@ body {
 h1, h2, h3 { color: #7a2d0f; }
 
 button {
-    padding: 12px 22px;
-    border: none;
-    border-radius: 25px;
-    font-size: 16px;
-    margin: 10px;
-    cursor: pointer;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  margin: 10px;
+  cursor: pointer;
 }
 
 .yes {
-    background: #8b4513;
-    color: white;
+  background: #8b4513;
+  color: white;
 }
 
 .no {
-    background: #aaa;
-    color: white;
+  background: #aaa;
+  color: white;
 }
 
 .chocolate {
-    background: #6b2c1a;
-    color: white;
-    width: 100%;
+  background: #6b2c1a;
+  color: white;
+  width: 100%;
 }
 
 /* Chocolate rain */
 .choco {
-    position: fixed;
-    top: -120px;
-    width: 80px;
-    z-index: 1;
-    animation: fall linear forwards;
+  position: fixed;
+  top: -100px;
+  width: 60px;
+  z-index: 1;
+  animation: fall linear forwards;
 }
 
 @keyframes fall {
-    to { transform: translateY(100vh); }
+  to { transform: translateY(110vh); }
 }
 
-/* Warning overlay */
+/* Overlay */
 .overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(255,255,255,0.95);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 20;
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
 }
 
 .overlay-box {
-    background: white;
-    padding: 25px;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+  background: white;
+  padding: 25px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
 }
 
 img.final {
-    width: 100%;
-    border-radius: 15px;
-    margin-top: 15px;
+  width: 100%;
+  border-radius: 15px;
+  margin-top: 15px;
 }
 </style>
 </head>
@@ -101,108 +101,119 @@ img.final {
 <body>
 
 <audio id="music" loop>
-    <source src="https://www.bensound.com/bensound-music/bensound-love.mp3">
+  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3">
 </audio>
 
 <!-- PAGE 1 -->
 <div class="box" id="page1">
-    <h1>🍫 Happy Chocolate Day 🍫</h1>
-    <h2>My Love 💖</h2>
-    <p>Do you want chocolate?</p>
-    <button class="yes" onclick="startLove()">Yes 😍</button>
-    <button class="no" onclick="startRain()">No 🙃</button>
+  <h1>🍫 Happy Chocolate Day 🍫</h1>
+  <h2>My Love 💖</h2>
+  <p>Do you want chocolate?</p>
+  <button class="yes" onclick="startLove()">Yes 😍</button>
+  <button class="no" onclick="startRain()">No 🙃</button>
 </div>
 
 <!-- PAGE 2 -->
 <div class="box hidden" id="page2">
-    <h2>Choose your chocolate 🍬</h2>
-    <button class="chocolate" onclick="finalPage('Dairy Milk')">Dairy Milk</button>
-    <button class="chocolate" onclick="finalPage('KitKat')">KitKat</button>
-    <button class="chocolate" onclick="finalPage('Snickers')">Snickers</button>
-    <button class="chocolate" onclick="finalPage('5 Star')">5 Star</button>
+  <h2>Choose your chocolate 🍬</h2>
+  <button class="chocolate" onclick="finalPage('Dairy Milk')">Dairy Milk</button>
+  <button class="chocolate" onclick="finalPage('KitKat')">KitKat</button>
+  <button class="chocolate" onclick="finalPage('Snickers')">Snickers</button>
+  <button class="chocolate" onclick="finalPage('5 Star')">5 Star</button>
 </div>
 
 <!-- PAGE 3 -->
 <div class="box hidden" id="page3">
-    <h1>🍫 Cadbury Love 🍫</h1>
-    <img id="finalImg" class="final">
-    <p id="message"></p>
-    <h3>❤️ Happy Valentine’s Chocolate Day ❤️</h3>
+  <h1>🍫 Cadbury Love 🍫</h1>
+  <img id="finalImg" class="final">
+  <p id="message"></p>
+  <h3>❤️ Happy Valentine’s Chocolate Day ❤️</h3>
 </div>
 
 <script>
+/* DOM references */
+const page1 = document.getElementById("page1");
+const page2 = document.getElementById("page2");
+const page3 = document.getElementById("page3");
+const finalImg = document.getElementById("finalImg");
+const message = document.getElementById("message");
+const music = document.getElementById("music");
+
+/* Image sources (hotlink-safe) */
 const rainImages = [
-    "https://upload.wikimedia.org/wikipedia/commons/3/3e/Cadbury_Dairy_Milk.jpg",
-    "https://upload.wikimedia.org/wikipedia/commons/7/79/KitKat-Wrapper-Small.jpg",
-    "https://upload.wikimedia.org/wikipedia/commons/6/6f/Snickers_bar.jpg"
+  "https://i.imgur.com/8Qf5Z8N.png",
+  "https://i.imgur.com/3ZQ3Z4N.png",
+  "https://i.imgur.com/9QeJZkP.png"
 ];
 
 const finalImages = {
-    "Dairy Milk": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Cadbury_Dairy_Milk.jpg",
-    "KitKat": "https://upload.wikimedia.org/wikipedia/commons/7/79/KitKat-Wrapper-Small.jpg",
-    "Snickers": "https://upload.wikimedia.org/wikipedia/commons/6/6f/Snickers_bar.jpg",
-    "5 Star": "https://i.ytimg.com/vi/zsZJz5xGXzA/maxresdefault.jpg"
+  "Dairy Milk": "https://i.imgur.com/8Qf5Z8N.png",
+  "KitKat": "https://i.imgur.com/3ZQ3Z4N.png",
+  "Snickers": "https://i.imgur.com/9QeJZkP.png",
+  "5 Star": "https://i.imgur.com/W1YFqQH.png"
 };
 
 const messages = [
-    "You are sweeter than any chocolate in the world 💕",
-    "Every bite reminds me of your smile 😘",
-    "Life with you is full of love & sweetness 💖",
-    "Chocolate melts, but my love for you never will ❤️"
+  "You are sweeter than any chocolate in the world 💕",
+  "Every bite reminds me of your smile 😘",
+  "Life with you is full of love & sweetness 💖",
+  "Chocolate melts, but my love for you never will ❤️"
 ];
 
-let dropped = 0;
-const fillCount = Math.ceil((window.innerWidth * window.innerHeight) / 30000);
+let rainInterval;
 
+/* Chocolate rain */
 function startRain() {
-    page1.classList.add("hidden");
+  page1.classList.add("hidden");
 
-    const interval = setInterval(() => {
-        dropChocolate();
-        dropped++;
+  rainInterval = setInterval(() => {
+    dropChocolate();
+  }, 120);
 
-        if (dropped >= fillCount) {
-            clearInterval(interval);
-            setTimeout(showWarning, 800);
-        }
-    }, 150);
+  setTimeout(showWarning, 7000); // after screen fills
 }
 
 function dropChocolate() {
-    const img = document.createElement("img");
-    img.src = rainImages[Math.floor(Math.random() * rainImages.length)];
-    img.className = "choco";
-    img.style.left = Math.random() * 100 + "vw";
-    img.style.animationDuration = Math.random() * 2 + 3 + "s";
-    document.body.appendChild(img);
+  const img = document.createElement("img");
+  img.src = rainImages[Math.floor(Math.random() * rainImages.length)];
+  img.className = "choco";
+  img.style.left = Math.random() * 100 + "vw";
+  img.style.animationDuration = Math.random() * 2 + 3 + "s";
+  document.body.appendChild(img);
+
+  setTimeout(() => img.remove(), 7000);
 }
 
+/* Overlay */
 function showWarning() {
-    const overlay = document.createElement("div");
-    overlay.className = "overlay";
-    overlay.innerHTML = `
-        <div class="overlay-box">
-            <h2>😜 You can’t say NO!</h2>
-            <p>The whole screen is full of chocolates 🍫❤️</p>
-            <button class="yes" onclick="startLove()">YES 😍</button>
-        </div>
-    `;
-    document.body.appendChild(overlay);
+  const overlay = document.createElement("div");
+  overlay.className = "overlay";
+  overlay.innerHTML = `
+    <div class="overlay-box">
+      <h2>😜 You can’t say NO!</h2>
+      <p>The whole screen is full of chocolates 🍫❤️</p>
+      <button class="yes" onclick="startLove()">YES 😍</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
 }
 
+/* Love flow */
 function startLove() {
-    document.getElementById("music").play();
-    document.querySelectorAll(".overlay").forEach(o => o.remove());
-    page2.classList.remove("hidden");
+  clearInterval(rainInterval);
+  music.play();
+  document.querySelectorAll(".overlay").forEach(o => o.remove());
+  page1.classList.add("hidden");
+  page2.classList.remove("hidden");
 }
 
 function finalPage(choice) {
-    page2.classList.add("hidden");
-    page3.classList.remove("hidden");
-    finalImg.src = finalImages[choice];
-    message.innerHTML =
-        `You chose <b>${choice}</b> 🍫<br><br>` +
-        messages[Math.floor(Math.random() * messages.length)];
+  page2.classList.add("hidden");
+  page3.classList.remove("hidden");
+  finalImg.src = finalImages[choice];
+  message.innerHTML =
+    `You chose <b>${choice}</b> 🍫<br><br>` +
+    messages[Math.floor(Math.random() * messages.length)];
 }
 </script>
 
