@@ -58,11 +58,11 @@ button {
   width: 100%;
 }
 
-/* Chocolate rain */
+/* Chocolate rain (emoji) */
 .choco {
   position: fixed;
-  top: -100px;
-  width: 60px;
+  top: -50px;
+  font-size: 32px;
   z-index: 1;
   animation: fall linear forwards;
 }
@@ -90,10 +90,9 @@ button {
   box-shadow: 0 15px 35px rgba(0,0,0,0.3);
 }
 
-img.final {
-  width: 100%;
-  border-radius: 15px;
-  margin-top: 15px;
+.final-choco {
+  font-size: 90px;
+  margin: 15px 0;
 }
 </style>
 </head>
@@ -116,42 +115,26 @@ img.final {
 <!-- PAGE 2 -->
 <div class="box hidden" id="page2">
   <h2>Choose your chocolate 🍬</h2>
-  <button class="chocolate" onclick="finalPage('Dairy Milk')">Dairy Milk</button>
-  <button class="chocolate" onclick="finalPage('KitKat')">KitKat</button>
-  <button class="chocolate" onclick="finalPage('Snickers')">Snickers</button>
-  <button class="chocolate" onclick="finalPage('5 Star')">5 Star</button>
+  <button class="chocolate" onclick="finalPage('🍫 Dairy Milk')">Dairy Milk</button>
+  <button class="chocolate" onclick="finalPage('🍫 KitKat')">KitKat</button>
+  <button class="chocolate" onclick="finalPage('🍫 Snickers')">Snickers</button>
+  <button class="chocolate" onclick="finalPage('🍫 5 Star')">5 Star</button>
 </div>
 
 <!-- PAGE 3 -->
 <div class="box hidden" id="page3">
   <h1>🍫 Cadbury Love 🍫</h1>
-  <img id="finalImg" class="final">
+  <div class="final-choco">🍫❤️🍫</div>
   <p id="message"></p>
   <h3>❤️ Happy Valentine’s Chocolate Day ❤️</h3>
 </div>
 
 <script>
-/* DOM references */
 const page1 = document.getElementById("page1");
 const page2 = document.getElementById("page2");
 const page3 = document.getElementById("page3");
-const finalImg = document.getElementById("finalImg");
 const message = document.getElementById("message");
 const music = document.getElementById("music");
-
-/* Image sources (hotlink-safe) */
-const rainImages = [
-  "https://i.imgur.com/8Qf5Z8N.png",
-  "https://i.imgur.com/3ZQ3Z4N.png",
-  "https://i.imgur.com/9QeJZkP.png"
-];
-
-const finalImages = {
-  "Dairy Milk": "https://i.imgur.com/8Qf5Z8N.png",
-  "KitKat": "https://i.imgur.com/3ZQ3Z4N.png",
-  "Snickers": "https://i.imgur.com/9QeJZkP.png",
-  "5 Star": "https://i.imgur.com/W1YFqQH.png"
-};
 
 const messages = [
   "You are sweeter than any chocolate in the world 💕",
@@ -167,21 +150,17 @@ function startRain() {
   page1.classList.add("hidden");
 
   rainInterval = setInterval(() => {
-    dropChocolate();
+    const choco = document.createElement("div");
+    choco.className = "choco";
+    choco.innerText = "🍫";
+    choco.style.left = Math.random() * 100 + "vw";
+    choco.style.animationDuration = (Math.random() * 2 + 3) + "s";
+    document.body.appendChild(choco);
+
+    setTimeout(() => choco.remove(), 7000);
   }, 120);
 
-  setTimeout(showWarning, 7000); // after screen fills
-}
-
-function dropChocolate() {
-  const img = document.createElement("img");
-  img.src = rainImages[Math.floor(Math.random() * rainImages.length)];
-  img.className = "choco";
-  img.style.left = Math.random() * 100 + "vw";
-  img.style.animationDuration = Math.random() * 2 + 3 + "s";
-  document.body.appendChild(img);
-
-  setTimeout(() => img.remove(), 7000);
+  setTimeout(showWarning, 7000);
 }
 
 /* Overlay */
@@ -191,31 +170,4 @@ function showWarning() {
   overlay.innerHTML = `
     <div class="overlay-box">
       <h2>😜 You can’t say NO!</h2>
-      <p>The whole screen is full of chocolates 🍫❤️</p>
-      <button class="yes" onclick="startLove()">YES 😍</button>
-    </div>
-  `;
-  document.body.appendChild(overlay);
-}
-
-/* Love flow */
-function startLove() {
-  clearInterval(rainInterval);
-  music.play();
-  document.querySelectorAll(".overlay").forEach(o => o.remove());
-  page1.classList.add("hidden");
-  page2.classList.remove("hidden");
-}
-
-function finalPage(choice) {
-  page2.classList.add("hidden");
-  page3.classList.remove("hidden");
-  finalImg.src = finalImages[choice];
-  message.innerHTML =
-    `You chose <b>${choice}</b> 🍫<br><br>` +
-    messages[Math.floor(Math.random() * messages.length)];
-}
-</script>
-
-</body>
-</html>
+      <p>The
