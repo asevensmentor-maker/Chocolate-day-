@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Chocolate Day</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to bottom, #ff758c, #ff7eb3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.box {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+}
+
+h1, h2 {
+    color: #7a2d0f;
+}
+
+button {
+    padding: 12px 22px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.yes {
+    background: #8b4513;
+    color: white;
+}
+
+.no {
+    background: #aaa;
+    color: white;
+    position: absolute;
+}
+
+.chocolate {
+    background: #6b2c1a;
+    color: white;
+    width: 100%;
+}
+
+.hidden {
+    display: none;
+}
+
+img {
+    width: 100%;
+    border-radius: 15px;
+    margin-top: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-love.mp3">
+</audio>
+
+<div class="box" id="page1">
+    <h1>🍫 Happy Chocolate Day 🍫</h1>
+    <h2>My Love 💖</h2>
+    <p>Do you want chocolate?</p>
+    <button class="yes" onclick="startLove()">Yes 😍</button>
+    <button class="no" id="noBtn" onmouseover="runAway()">No 🙃</button>
+</div>
+
+<div class="box hidden" id="page2">
+    <h2>Choose your chocolate 🍬</h2>
+    <button class="chocolate" onclick="finalPage('Dairy Milk')">Dairy Milk</button>
+    <button class="chocolate" onclick="finalPage('KitKat')">KitKat</button>
+    <button class="chocolate" onclick="finalPage('Snickers')">Snickers</button>
+    <button class="chocolate" onclick="finalPage('5 Star')">5 Star</button>
+</div>
+
+<div class="box hidden" id="page3">
+    <h1>🍫 Cadbury Love 🍫</h1>
+    <img id="chocoImg">
+    <p id="message"></p>
+    <h3>❤️ Happy Valentine’s Chocolate Day ❤️</h3>
+</div>
+
+<script>
+const messages = [
+    "You are sweeter than any chocolate in the world 💕",
+    "Every bite reminds me of your smile 😘",
+    "Life with you is full of love & sweetness 💖",
+    "Chocolate melts, but my love for you never will ❤️"
+];
+
+const images = {
+    "Dairy Milk": "https://i.imgur.com/6XKQJZP.jpg",
+    "KitKat": "https://i.imgur.com/Fh9ZQ2G.jpg",
+    "Snickers": "https://i.imgur.com/nLZQZ8U.jpg",
+    "5 Star": "https://i.imgur.com/oV3V9cX.jpg"
+};
+
+function startLove() {
+    document.getElementById("music").play();
+    page1.classList.add("hidden");
+    page2.classList.remove("hidden");
+}
+
+function runAway() {
+    const btn = document.getElementById("noBtn");
+    btn.style.top = Math.random() * 80 + "%";
+    btn.style.left = Math.random() * 80 + "%";
+    btn.innerText = "You can’t say NO 😜";
+}
+
+function finalPage(chocolate) {
+    page2.classList.add("hidden");
+    page3.classList.remove("hidden");
+
+    document.getElementById("chocoImg").src = images[chocolate];
+    document.getElementById("message").innerHTML =
+        `You chose <b>${chocolate}</b> 🍫<br><br>` +
+        messages[Math.floor(Math.random() * messages.length)];
+}
+</script>
+
+</body>
+</html>
