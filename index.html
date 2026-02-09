@@ -8,17 +8,17 @@
 <style>
 body {
     margin: 0;
-    padding: 0;
     font-family: 'Segoe UI', sans-serif;
     background: linear-gradient(to bottom, #ff758c, #ff7eb3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
     overflow: hidden;
 }
 
+/* Center box */
 .box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background: white;
     padding: 25px;
     border-radius: 20px;
@@ -26,13 +26,12 @@ body {
     max-width: 420px;
     text-align: center;
     box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-    position: relative;
-    z-index: 2;
+    z-index: 10;
 }
 
-h1, h2, h3 {
-    color: #7a2d0f;
-}
+.hidden { display: none; }
+
+h1, h2, h3 { color: #7a2d0f; }
 
 button {
     padding: 12px 22px;
@@ -59,41 +58,28 @@ button {
     width: 100%;
 }
 
-.hidden {
-    display: none;
-}
-
-img {
-    width: 100%;
-    border-radius: 15px;
-    margin-top: 15px;
-}
-
 /* Chocolate rain */
-.rain {
+.choco {
     position: fixed;
-    top: -50px;
-    font-size: 32px;
+    top: -120px;
+    width: 80px;
+    z-index: 1;
     animation: fall linear forwards;
-    z-index: 999;
 }
 
 @keyframes fall {
-    to {
-        transform: translateY(110vh);
-        opacity: 0;
-    }
+    to { transform: translateY(100vh); }
 }
 
-/* Overlay */
+/* Warning overlay */
 .overlay {
     position: fixed;
     inset: 0;
-    background: rgba(255,255,255,0.92);
+    background: rgba(255,255,255,0.95);
     display: flex;
-    justify-content: center;
     align-items: center;
-    z-index: 1000;
+    justify-content: center;
+    z-index: 20;
 }
 
 .overlay-box {
@@ -102,6 +88,12 @@ img {
     border-radius: 20px;
     text-align: center;
     box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+}
+
+img.final {
+    width: 100%;
+    border-radius: 15px;
+    margin-top: 15px;
 }
 </style>
 </head>
@@ -112,14 +104,16 @@ img {
     <source src="https://www.bensound.com/bensound-music/bensound-love.mp3">
 </audio>
 
+<!-- PAGE 1 -->
 <div class="box" id="page1">
     <h1>🍫 Happy Chocolate Day 🍫</h1>
     <h2>My Love 💖</h2>
     <p>Do you want chocolate?</p>
     <button class="yes" onclick="startLove()">Yes 😍</button>
-    <button class="no" onclick="runAway()">No 🙃</button>
+    <button class="no" onclick="startRain()">No 🙃</button>
 </div>
 
+<!-- PAGE 2 -->
 <div class="box hidden" id="page2">
     <h2>Choose your chocolate 🍬</h2>
     <button class="chocolate" onclick="finalPage('Dairy Milk')">Dairy Milk</button>
@@ -128,14 +122,28 @@ img {
     <button class="chocolate" onclick="finalPage('5 Star')">5 Star</button>
 </div>
 
+<!-- PAGE 3 -->
 <div class="box hidden" id="page3">
     <h1>🍫 Cadbury Love 🍫</h1>
-    <img id="chocoImg">
+    <img id="finalImg" class="final">
     <p id="message"></p>
     <h3>❤️ Happy Valentine’s Chocolate Day ❤️</h3>
 </div>
 
 <script>
+const rainImages = [
+    "https://upload.wikimedia.org/wikipedia/commons/3/3e/Cadbury_Dairy_Milk.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/7/79/KitKat-Wrapper-Small.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/6/6f/Snickers_bar.jpg"
+];
+
+const finalImages = {
+    "Dairy Milk": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Cadbury_Dairy_Milk.jpg",
+    "KitKat": "https://upload.wikimedia.org/wikipedia/commons/7/79/KitKat-Wrapper-Small.jpg",
+    "Snickers": "https://upload.wikimedia.org/wikipedia/commons/6/6f/Snickers_bar.jpg",
+    "5 Star": "https://i.ytimg.com/vi/zsZJz5xGXzA/maxresdefault.jpg"
+};
+
 const messages = [
     "You are sweeter than any chocolate in the world 💕",
     "Every bite reminds me of your smile 😘",
@@ -143,51 +151,57 @@ const messages = [
     "Chocolate melts, but my love for you never will ❤️"
 ];
 
-const images = {
-    "Dairy Milk": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Cadbury_Dairy_Milk.jpg",
-    "KitKat": "https://upload.wikimedia.org/wikipedia/commons/7/79/KitKat-Wrapper-Small.jpg",
-    "Snickers": "https://upload.wikimedia.org/wikipedia/commons/6/6f/Snickers_bar.jpg",
-    "5 Star": "https://i.ytimg.com/vi/zsZJz5xGXzA/maxresdefault.jpg"
-};
+let dropped = 0;
+const fillCount = Math.ceil((window.innerWidth * window.innerHeight) / 30000);
 
-function startLove() {
-    document.getElementById("music").play();
+function startRain() {
     page1.classList.add("hidden");
-    page2.classList.remove("hidden");
-    document.querySelectorAll(".overlay").forEach(o => o.remove());
+
+    const interval = setInterval(() => {
+        dropChocolate();
+        dropped++;
+
+        if (dropped >= fillCount) {
+            clearInterval(interval);
+            setTimeout(showWarning, 800);
+        }
+    }, 150);
 }
 
-function runAway() {
-    // Chocolate rain
-    for (let i = 0; i < 50; i++) {
-        let choco = document.createElement("div");
-        choco.innerText = "🍫";
-        choco.className = "rain";
-        choco.style.left = Math.random() * 100 + "vw";
-        choco.style.animationDuration = Math.random() * 2 + 3 + "s";
-        document.body.appendChild(choco);
-        setTimeout(() => choco.remove(), 5000);
-    }
+function dropChocolate() {
+    const img = document.createElement("img");
+    img.src = rainImages[Math.floor(Math.random() * rainImages.length)];
+    img.className = "choco";
+    img.style.left = Math.random() * 100 + "vw";
+    img.style.animationDuration = Math.random() * 2 + 3 + "s";
+    document.body.appendChild(img);
+}
 
-    // Overlay
+function showWarning() {
     const overlay = document.createElement("div");
     overlay.className = "overlay";
     overlay.innerHTML = `
         <div class="overlay-box">
             <h2>😜 You can’t say NO!</h2>
-            <p>Chocolate is falling for you 🍫❤️</p>
+            <p>The whole screen is full of chocolates 🍫❤️</p>
             <button class="yes" onclick="startLove()">YES 😍</button>
         </div>
     `;
     document.body.appendChild(overlay);
 }
 
-function finalPage(chocolate) {
+function startLove() {
+    document.getElementById("music").play();
+    document.querySelectorAll(".overlay").forEach(o => o.remove());
+    page2.classList.remove("hidden");
+}
+
+function finalPage(choice) {
     page2.classList.add("hidden");
     page3.classList.remove("hidden");
-    document.getElementById("chocoImg").src = images[chocolate];
-    document.getElementById("message").innerHTML =
-        `You chose <b>${chocolate}</b> 🍫<br><br>` +
+    finalImg.src = finalImages[choice];
+    message.innerHTML =
+        `You chose <b>${choice}</b> 🍫<br><br>` +
         messages[Math.floor(Math.random() * messages.length)];
 }
 </script>
